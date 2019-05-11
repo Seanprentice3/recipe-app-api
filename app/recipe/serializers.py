@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from sys import path
 from os.path import dirname as dir
-from core.models import Tag, Ingredient
+from core.models import Tag, Ingredient, Recipe
 
 path.append(dir(path[0]))
 __package__ = "core"
@@ -22,4 +22,21 @@ class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = ('id', 'name')
+        read_only_fields = ('id',)
+
+
+class RecipeSerializer(serializers.ModelSerializer):
+    ingredients = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Ingredient.objects.all()
+    )
+    tags = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Tag.objects.all()
+    )
+
+    class Meta:
+        model = Recipe
+        fields = ('id', 'title', 'ingredients', 'tags', 'time_minutes',
+                  'price', 'link')
         read_only_fields = ('id',)
