@@ -7,7 +7,6 @@ from os.path import dirname as dir
 from core.models import Tag, Ingredient
 
 
-
 path.append(dir(path[0]))
 __package__ = "core"
 
